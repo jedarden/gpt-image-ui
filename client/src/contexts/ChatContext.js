@@ -65,7 +65,16 @@ export const ChatProvider = ({ children }) => {
       );
       
       if (savedMessages && savedMessages.length > 0) {
-        setMessages(savedMessages);
+        // Ensure each message has an images property
+        const processedMessages = savedMessages.map(msg => ({
+          ...msg,
+          images: msg.images || []
+        }));
+        
+        // Log for debugging
+        console.log('Loaded messages from localStorage:', processedMessages);
+        
+        setMessages(processedMessages);
         setHasMoreMessages(false);
       }
     } catch (err) {
@@ -110,13 +119,33 @@ export const ChatProvider = ({ children }) => {
       // Send request to API
       const response = await api.post('/chat/message', payload);
       
+      // Log the response data for debugging
+      console.log('Chat API response:', {
+        hasImages: response.data.assistantMessage.images && response.data.assistantMessage.images.length > 0,
+        imageCount: response.data.assistantMessage.images ? response.data.assistantMessage.images.length : 0,
+        content: response.data.assistantMessage.content,
+        firstImageUrl: response.data.assistantMessage.images && response.data.assistantMessage.images.length > 0
+          ? response.data.assistantMessage.images[0].url.substring(0, 30) + '...'
+          : 'No image URL'
+      });
+      
       // Update user message with server response
       const { userMessage: updatedUserMessage, assistantMessage } = response.data;
+      
+      // Add explicit logging to verify the structure of the assistantMessage object
+      console.log('Assistant message from server:', assistantMessage);
+      console.log('Images in assistant message:', assistantMessage.images);
+      
+      // Ensure the images property is properly included when updating the messages state
+      const processedAssistantMessage = {
+        ...assistantMessage,
+        images: assistantMessage.images || [] // Ensure images property exists
+      };
       
       setMessages(prevMessages => {
         // Replace temporary message with server response
         const updatedMessages = prevMessages.filter(msg => msg.id !== tempId);
-        return [assistantMessage, updatedUserMessage, ...updatedMessages];
+        return [processedAssistantMessage, updatedUserMessage, ...updatedMessages];
       });
       
       // Clear uploaded and masked images

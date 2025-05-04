@@ -15,6 +15,17 @@ const MessageItem = ({ message }) => {
   // Determine if message has images
   const hasImages = images && images.length > 0;
   
+  // Debug logging for message structure
+  console.log('Message structure:', {
+    id: message.id,
+    role,
+    hasContent: !!content,
+    contentLength: content ? content.length : 0,
+    hasImages,
+    imageCount: images ? images.length : 0,
+    firstImageUrl: hasImages ? (images[0].url ? images[0].url.substring(0, 20) + '...' : 'No URL') : 'No images'
+  });
+  
   return (
     <div className={`message-item ${role} ${status ? status.toLowerCase() : ''}`}>
       <div className="message-header">
@@ -30,9 +41,9 @@ const MessageItem = ({ message }) => {
         
         {/* Image content */}
         {hasImages && (
-          <div className="message-images">
+          <div className="message-images" style={{ marginTop: '10px' }}>
             {images.map((image) => (
-              <ImageMessage key={image.id} image={image} />
+              <ImageMessage key={image.id || Math.random().toString(36).substring(7)} image={image} />
             ))}
           </div>
         )}

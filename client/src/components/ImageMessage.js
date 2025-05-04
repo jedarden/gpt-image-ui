@@ -22,7 +22,8 @@ const ImageMessage = ({ image }) => {
     setIsLoaded(true);
   };
   
-  const handleImageError = () => {
+  const handleImageError = (e) => {
+    console.error('Image failed to load:', e.target.src.substring(0, 30) + '...', e);
     setError(true);
     setIsLoaded(true); // Consider it "loaded" to remove loading state
   };
@@ -41,12 +42,17 @@ const ImageMessage = ({ image }) => {
         </div>
       ) : (
         <div className="image-container" onClick={handleImageClick}>
-          <img 
-            src={image.url} 
-            alt={image.alt || "Generated image"} 
+          <img
+            src={image.url}
+            alt={image.alt || "Generated image"}
             onLoad={handleImageLoad}
             onError={handleImageError}
+            style={{ maxWidth: '100%', maxHeight: '100%' }}
           />
+          {/* Debug info - remove in production */}
+          <div className="image-debug" style={{ position: 'absolute', bottom: 0, left: 0, fontSize: '10px', background: 'rgba(0,0,0,0.5)', color: 'white', padding: '2px', display: 'none' }}>
+            {image.url ? image.url.substring(0, 20) + '...' : 'No URL'}
+          </div>
           
           <div className="image-actions">
             <button 

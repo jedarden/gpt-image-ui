@@ -65,10 +65,7 @@ module.exports = {
   testTimeout: 30000,
   
   // Watch plugins
-  watchPlugins: [
-    'jest-watch-typeahead/filename',
-    'jest-watch-typeahead/testname'
-  ],
+  watchPlugins: [],
   
   // Projects configuration for monorepo
   projects: [

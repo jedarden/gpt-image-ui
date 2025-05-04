@@ -7,17 +7,20 @@ const { ValidationError } = require('./error');
 /**
  * Validate chat message request
  * @param {Object} body - Request body
- * @returns {Object} Validated body
+ * @returns {Object} Validated body with standardized properties
  */
 function validateChatRequest(body) {
   const errors = {};
   
-  // Validate message
-  if (!body.message) {
+  // Validate message (previously named content)
+  // Support both 'content' and 'message' for backward compatibility
+  const messageContent = body.message !== undefined ? body.message : body.content;
+  
+  if (!messageContent) {
     errors.message = 'Message is required';
-  } else if (typeof body.message !== 'string') {
+  } else if (typeof messageContent !== 'string') {
     errors.message = 'Message must be a string';
-  } else if (body.message.length > 32000) {
+  } else if (messageContent.length > 32000) {
     errors.message = 'Message exceeds maximum length of 32000 characters';
   }
   
@@ -33,7 +36,18 @@ function validateChatRequest(body) {
     throw new ValidationError('Invalid chat request', 'INVALID_CHAT_REQUEST', errors);
   }
   
-  return body;
+  // Standardize the output to use 'message' property
+  const validatedBody = {
+    ...body,
+    message: messageContent
+  };
+  
+  // Remove the 'content' property if it exists to avoid confusion
+  if ('content' in validatedBody) {
+    delete validatedBody.content;
+  }
+  
+  return validatedBody;
 }
 
 /**

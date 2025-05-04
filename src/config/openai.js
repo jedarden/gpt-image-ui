@@ -13,7 +13,7 @@ module.exports = {
   defaults: {
     n: 1,
     size: '1024x1024',
-    quality: 'auto',
+    quality: 'high', // Changed from 'auto' to 'high' (valid values: 'low', 'medium', 'high', 'auto')
     background: 'auto',
     output_format: 'png'
   },

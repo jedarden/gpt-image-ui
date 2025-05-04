@@ -4,20 +4,20 @@
 
 // Mock the OpenAI module
 jest.mock('openai', () => {
+  const mockOpenAI = {
+    images: {
+      generate: jest.fn(),
+      edit: jest.fn()
+    },
+    chat: {
+      completions: {
+        create: jest.fn()
+      }
+    }
+  };
+  
   return {
-    OpenAI: jest.fn().mockImplementation(() => {
-      return {
-        images: {
-          generate: jest.fn(),
-          edit: jest.fn()
-        },
-        chat: {
-          completions: {
-            create: jest.fn()
-          }
-        }
-      };
-    })
+    OpenAI: jest.fn().mockImplementation(() => mockOpenAI)
   };
 });
 
@@ -49,6 +49,9 @@ describe('OpenAI Service', () => {
     // Get the mocked OpenAI instance
     openaiInstance = new OpenAI();
     
+    // Set the mocked OpenAI instance in the service
+    openaiService.setOpenAIClient(openaiInstance);
+    
     // Mock successful responses
     openaiInstance.images.generate.mockResolvedValue({
       created: Date.now(),
@@ -68,7 +71,7 @@ describe('OpenAI Service', () => {
       id: 'chatcmpl-mock-id',
       object: 'chat.completion',
       created: Date.now(),
-      model: 'gpt-4-vision-preview',
+      model: 'gpt-4.1-nano',
       choices: [
         {
           message: {
@@ -256,7 +259,7 @@ describe('OpenAI Service', () => {
       
       // Check that the OpenAI API was called with the correct parameters
       expect(openaiInstance.chat.completions.create).toHaveBeenCalledWith({
-        model: 'gpt-4-vision-preview',
+        model: 'gpt-4.1-nano',
         messages: [
           { role: 'user', content: 'Hello, world!' }
         ],
@@ -268,7 +271,7 @@ describe('OpenAI Service', () => {
         id: 'chatcmpl-mock-id',
         object: 'chat.completion',
         created: expect.any(Number),
-        model: 'gpt-4-vision-preview',
+        model: 'gpt-4.1-nano',
         choices: [
           {
             message: {
@@ -294,7 +297,7 @@ describe('OpenAI Service', () => {
       
       // Check that the OpenAI API was called with the correct parameters
       expect(openaiInstance.chat.completions.create).toHaveBeenCalledWith({
-        model: 'gpt-4-vision-preview',
+        model: 'gpt-4.1-nano',
         messages: [
           { role: 'user', content: 'Hello, world!' }
         ],
@@ -307,7 +310,7 @@ describe('OpenAI Service', () => {
         id: 'chatcmpl-mock-id',
         object: 'chat.completion',
         created: expect.any(Number),
-        model: 'gpt-4-vision-preview',
+        model: 'gpt-4.1-nano',
         choices: [
           {
             message: {
