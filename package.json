@@ -1,17 +1,75 @@
 {
-  "name": "gpt-image-ui",
+  "name": "gpt-image-ui-backend",
   "version": "0.1.0",
-  "description": "A project created with SPARC methodology",
+  "description": "Backend server for the GPT Image UI application",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon src/index.js",
+    "lint": "eslint src/**/*.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:unit": "jest \"src/.*/__tests__/.*\\.test\\.js\"",
+    "test:integration": "jest \"src/tests/integration/.*\\.test\\.js\"",
+    "test:e2e": "jest \"tests/e2e/.*\\.test\\.js\"",
+    "test:frontend": "cd client && npm test",
+    "client:install": "cd client && npm install",
+    "client:build": "cd client && npm run build",
+    "client:dev": "cd client && npm start",
+    "dev:full": "concurrently \"npm run dev\" \"npm run client:dev\"",
+    "build": "npm run client:install && npm run client:build",
+    "prod": "NODE_ENV=production npm start",
+    "docker:build": "docker build -t gpt-image-ui:latest .",
+    "docker:run": "docker run -p 3001:3001 --env-file .env.production gpt-image-ui:latest",
+    "docker:compose": "docker-compose -f docker-compose.yml up",
+    "docker:compose:prod": "docker-compose -f docker-compose.prod.yml up -d",
+    "docker:compose:down": "docker-compose -f docker-compose.prod.yml down",
+    "deploy": "./scripts/deploy.sh",
+    "security:audit": "node ./scripts/security-audit.js",
+    "security:npm": "npm audit --production",
+    "security:fix": "npm audit fix",
+    "logs:view": "tail -f logs/combined.log",
+    "logs:error": "tail -f logs/error.log",
+    "monitor": "node ./scripts/monitor.js",
+    "monitor:cron": "crontab -l | { cat; echo \"*/5 * * * * cd $(pwd) && node ./scripts/monitor.js >> ./logs/cron.log 2>&1\"; } | crontab -"
   },
   "keywords": [
-    "sparc"
+    "openai",
+    "gpt-image-1",
+    "image-generation",
+    "api"
   ],
   "author": "",
   "license": "MIT",
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "openai": "^4.20.1",
+    "uuid": "^11.1.0",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.1",
+    "@testing-library/user-event": "^14.5.2",
+    "axios": "^1.9.0",
+    "concurrently": "^8.2.2",
+    "eslint": "^8.57.1",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "mock-fs": "^5.2.0",
+    "msw": "^2.2.3",
+    "nodemon": "^3.1.10",
+    "puppeteer": "^22.15.0",
+    "supertest": "^7.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
