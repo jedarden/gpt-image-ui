@@ -145,6 +145,32 @@ For production deployment with Nginx:
    npm run docker:compose:down
    ```
 
+### Container Image
+
+The application can be built and published as a container image to GitHub Packages using GitHub Actions. This provides a secure, versioned, and easily deployable artifact.
+
+- **Automated Builds**: Container images are automatically built and published on pushes to main and release tags
+- **Security Features**: Includes vulnerability scanning, SBOM generation, image signing, and non-root user execution
+- **Versioned Images**: Images are tagged based on git tags and commits for reliable versioning
+
+To pull and run the container image:
+
+```bash
+# Pull the latest version
+docker pull ghcr.io/your-username/gpt-image-ui:latest
+
+# Run the container
+docker run -d \
+  -p 3001:3001 \
+  -e OPENAI_API_KEY=your_openai_api_key \
+  -e PORT=3001 \
+  -e CSP_DIRECTIVES="default-src 'self'; connect-src 'self' https://api.openai.com;" \
+  -e CORS_ALLOWED_ORIGINS="https://example.com" \
+  ghcr.io/your-username/gpt-image-ui:latest
+```
+
+For detailed information about the container workflow, security features, and customization options, see [Container Workflow Guide](docs/container-workflow-guide.md).
+
 ### Automated Deployment
 
 Use the deployment script for a guided deployment process:
