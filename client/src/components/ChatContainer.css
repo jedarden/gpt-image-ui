@@ -1,0 +1,80 @@
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: var(--background-color);
+}
+
+.error-message {
+  background-color: var(--danger-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+}
+
+.loading-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  color: var(--secondary-color);
+}
+
+.loading-indicator p {
+  margin-top: 0.5rem;
+}
+
+.empty-state,
+.auth-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  padding: 2rem;
+  color: var(--secondary-color);
+}
+
+.empty-state h2,
+.auth-prompt h2 {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+}
+
+.scroll-sentinel {
+  height: 20px;
+  width: 100%;
+}
+
+/* Dark theme adjustments */
+[data-theme='dark'] .chat-container {
+  background-color: var(--dark-color);
+}
+
+[data-theme='dark'] .empty-state,
+[data-theme='dark'] .auth-prompt {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme='dark'] .empty-state h2,
+[data-theme='dark'] .auth-prompt h2 {
+  color: var(--light-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .chat-container {
+    padding: 0.5rem;
+  }
+  
+  .empty-state,
+  .auth-prompt {
+    padding: 1rem;
+  }
+}

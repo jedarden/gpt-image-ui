@@ -1,0 +1,55 @@
+.main-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Desktop layout */
+.main-layout.desktop {
+  flex-direction: row;
+}
+
+.main-layout.desktop > .chat-container {
+  flex: 7;
+  border-right: 1px solid var(--border-color);
+}
+
+.main-layout.desktop > .control-panel {
+  flex: 3;
+}
+
+/* Mobile layout */
+.main-layout.mobile {
+  flex-direction: column;
+}
+
+.main-layout.mobile > .chat-container {
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.main-layout.mobile > .control-panel {
+  height: 40%;
+  min-height: 200px;
+  max-height: 300px;
+}
+
+/* Dark theme adjustments */
+[data-theme='dark'] .main-layout.desktop > .chat-container {
+  border-right-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .main-layout.mobile > .chat-container {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Tablet layout */
+@media (min-width: 768px) and (max-width: 991px) {
+  .main-layout.desktop > .chat-container {
+    flex: 6;
+  }
+  
+  .main-layout.desktop > .control-panel {
+    flex: 4;
+  }
+}

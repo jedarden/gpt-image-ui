@@ -1,0 +1,104 @@
+.message-item {
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius);
+  position: relative;
+}
+
+/* User message styling */
+.message-item.user {
+  align-self: flex-end;
+  background-color: var(--primary-color);
+  color: white;
+  border-bottom-right-radius: 0;
+}
+
+/* Assistant message styling */
+.message-item.assistant {
+  align-self: flex-start;
+  background-color: var(--light-color);
+  color: var(--text-color);
+  border-bottom-left-radius: 0;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.message-role {
+  font-weight: 600;
+}
+
+.message-time {
+  opacity: 0.8;
+}
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.message-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Status indicators */
+.message-status {
+  display: flex;
+  align-items: center;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.message-status.pending {
+  opacity: 0.7;
+}
+
+.message-status.failed {
+  color: var(--danger-color);
+}
+
+.spinner.small {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.125rem;
+  margin-right: 0.5rem;
+}
+
+/* Message states */
+.message-item.pending {
+  opacity: 0.8;
+}
+
+.message-item.failed {
+  border: 1px solid var(--danger-color);
+}
+
+/* Dark theme adjustments */
+[data-theme='dark'] .message-item.assistant {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .message-item {
+    max-width: 90%;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .message-header {
+    margin-bottom: 0.25rem;
+    font-size: 0.7rem;
+  }
+}

@@ -1,0 +1,43 @@
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--light-color);
+  padding: 1rem;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.control-panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Desktop layout */
+.control-panel.desktop {
+  padding: 1.5rem;
+}
+
+/* Mobile layout */
+.control-panel.mobile {
+  padding: 1rem 0.75rem;
+}
+
+/* Dark theme adjustments */
+[data-theme='dark'] .control-panel {
+  background-color: var(--dark-color);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .control-panel {
+    padding: 0.75rem;
+  }
+  
+  .control-panel-content {
+    gap: 0.75rem;
+  }
+}
